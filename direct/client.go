@@ -42,9 +42,13 @@ func NewClient(token string) *Client {
 func (c *Client) NewRequest(body interface{}) (*http.Request, error) {
 	var buf io.ReadWriter
 	if body != nil {
+		maped := make(map[string]interface{})
+		data, _ := json.Marshal(body)
+		_ = json.Unmarshal(data, &maped)
+		maped["token"] = c.Token
+
 		buf = new(bytes.Buffer)
-		err := json.NewEncoder(buf).Encode(body)
-		if err != nil {
+		if err := json.NewEncoder(buf).Encode(&maped); err != nil {
 			return nil, err
 		}
 	}

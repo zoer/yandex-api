@@ -55,7 +55,7 @@ func TestNewRequest(t *testing.T) {
 	c := NewClient("foo")
 
 	cID := 123
-	inBody, outBody := &Campaign{CampaignID: cID}, `{"CampaignID":123}`+"\n"
+	inBody, outBody := &Campaign{CampaignID: cID}, `{"CampaignID":123,"token":"foo"}`+"\n"
 	req, _ := c.NewRequest(inBody)
 
 	a.Equal(req.URL.String(), defaultBaseURL)
